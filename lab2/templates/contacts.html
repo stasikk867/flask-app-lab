@@ -1,0 +1,369 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- =========================
+     CONTACTS HERO
+========================= -->
+<section class="contact-hero">
+
+    <div class="container">
+
+        <div class="contact-hero-content text-center">
+
+            <span class="section-label">
+                Контакти
+            </span>
+
+            <h1>
+                Давайте поспілкуємося
+            </h1>
+
+            <p>
+                Якщо у вас є запитання, пропозиція або просто
+                хочете зв'язатися зі мною — заповніть форму нижче.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CONTACTS SECTION
+========================= -->
+<section class="content-section">
+
+    <div class="container">
+
+        <div class="row g-5 align-items-stretch">
+
+            <!-- CONTACT INFORMATION -->
+            <div class="col-lg-5">
+
+                <div class="contact-info-card h-100">
+
+                    <span class="section-label">
+                        Зв'язок
+                    </span>
+
+                    <h2>
+                        Мої контакти
+                    </h2>
+
+                    <p class="contact-intro">
+                        Ви можете скористатися контактною
+                        інформацією нижче або залишити
+                        повідомлення через форму.
+                    </p>
+
+
+                    <!-- Email -->
+                    <div class="contact-item">
+
+                        <div class="contact-item-icon">
+                            <i class="bi bi-envelope-fill"></i>
+                        </div>
+
+                        <div>
+                            <span class="contact-item-label">
+                                Email
+                            </span>
+
+                            <a href="mailto:example@gmail.com">
+                                example@gmail.com
+                            </a>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Phone -->
+                    <div class="contact-item">
+
+                        <div class="contact-item-icon">
+                            <i class="bi bi-telephone-fill"></i>
+                        </div>
+
+                        <div>
+                            <span class="contact-item-label">
+                                Телефон
+                            </span>
+
+                            <a href="tel:+380000000000">
+                                +380 00 000 00 00
+                            </a>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Location -->
+                    <div class="contact-item">
+
+                        <div class="contact-item-icon">
+                            <i class="bi bi-geo-alt-fill"></i>
+                        </div>
+
+                        <div>
+                            <span class="contact-item-label">
+                                Місто
+                            </span>
+
+                            <span>
+                                Україна
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Social -->
+                    <div class="social-links">
+
+                        <a
+                            href="#"
+                            aria-label="GitHub">
+
+                            <i class="bi bi-github"></i>
+
+                        </a>
+
+                        <a
+                            href="#"
+                            aria-label="Telegram">
+
+                            <i class="bi bi-telegram"></i>
+
+                        </a>
+
+                        <a
+                            href="#"
+                            aria-label="LinkedIn">
+
+                            <i class="bi bi-linkedin"></i>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONTACT FORM -->
+            <div class="col-lg-7">
+
+                <div class="contact-form-card">
+
+                    <div class="form-heading">
+
+                        <span class="section-label">
+                            Написати мені
+                        </span>
+
+                        <h2>
+                            Залиште повідомлення
+                        </h2>
+
+                    </div>
+
+
+                    <!-- Повідомлення після відправки -->
+                    {% if message %}
+
+                    <div
+                        class="alert alert-success custom-alert"
+                        role="alert">
+
+                        <i class="bi bi-check-circle-fill me-2"></i>
+
+                        {{ message }}
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <form
+                        method="POST"
+                        action="{{ url_for('contacts') }}"
+                        class="contact-form">
+
+
+                        <!-- Name -->
+                        <div class="form-group">
+
+                            <label for="name">
+                                Ваше ім'я
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <i class="bi bi-person"></i>
+
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    class="form-control custom-input"
+                                    placeholder="Введіть ваше ім'я"
+                                    autocomplete="name"
+                                    required>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Email -->
+                        <div class="form-group">
+
+                            <label for="email">
+                                Email
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <i class="bi bi-envelope"></i>
+
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    class="form-control custom-input"
+                                    placeholder="example@gmail.com"
+                                    autocomplete="email"
+                                    required>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Message -->
+                        <div class="form-group">
+
+                            <label for="message">
+                                Повідомлення
+                            </label>
+
+                            <div class="input-wrapper textarea-wrapper">
+
+                                <i class="bi bi-chat-left-text"></i>
+
+                                <textarea
+                                    id="message"
+                                    name="message"
+                                    class="form-control custom-input"
+                                    rows="6"
+                                    placeholder="Напишіть ваше повідомлення..."
+                                    required></textarea>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Submit -->
+                        <button
+                            type="submit"
+                            class="btn btn-primary custom-btn submit-btn">
+
+                            Надіслати повідомлення
+
+                            <i class="bi bi-send-fill ms-2"></i>
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ADDITIONAL INFO
+========================= -->
+<section class="contact-bottom-section">
+
+    <div class="container">
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+
+                <div class="mini-contact-card">
+
+                    <i class="bi bi-clock"></i>
+
+                    <h3>
+                        Відповідь
+                    </h3>
+
+                    <p>
+                        Намагатимусь відповісти
+                        на повідомлення якомога швидше.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="mini-contact-card">
+
+                    <i class="bi bi-chat-dots"></i>
+
+                    <h3>
+                        Спілкування
+                    </h3>
+
+                    <p>
+                        Відкритий до нових знайомств,
+                        ідей та професійного спілкування.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="mini-contact-card">
+
+                    <i class="bi bi-code-square"></i>
+
+                    <h3>
+                        IT & Development
+                    </h3>
+
+                    <p>
+                        Цікавлюся програмуванням
+                        та розробкою програмного забезпечення.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,563 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- =========================
+     HERO SECTION
+========================= -->
+<section class="hero-section">
+
+    <div class="container">
+
+        <div class="row align-items-center g-5">
+
+            <!-- Текстова частина -->
+            <div class="col-lg-7">
+
+                <span class="hero-badge">
+                    <i class="bi bi-code-slash"></i>
+                    Software Engineering Student
+                </span>
+
+                <h1 class="hero-title">
+                    Привіт! Я
+                    <span>Танасій</span>
+                </h1>
+
+                <p class="hero-description">
+                    Студент спеціальності «Інженерія програмного
+                    забезпечення», який цікавиться веброзробкою,
+                    програмуванням та сучасними IT-технологіями.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a
+                        href="{{ url_for('contacts') }}"
+                        class="btn btn-primary custom-btn">
+
+                        <i class="bi bi-envelope me-2"></i>
+                        Зв'язатися зі мною
+
+                    </a>
+
+                    <a
+                        href="#skills"
+                        class="btn btn-outline-dark custom-btn">
+
+                        Переглянути навички
+                        <i class="bi bi-arrow-down ms-2"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Фото -->
+            <div class="col-lg-5">
+
+                <div class="profile-wrapper">
+
+                    <div class="profile-decoration"></div>
+
+                    <img
+                        src="{{ url_for('static', filename='images/logo.png') }}"
+                        alt="Фото профілю"
+                        class="profile-image">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ABOUT SECTION
+========================= -->
+<section class="content-section" id="about">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span class="section-label">
+                Про мене
+            </span>
+
+            <h2>
+                Коротко про мене
+            </h2>
+
+        </div>
+
+
+        <div class="row g-4 align-items-stretch">
+
+            <div class="col-lg-8">
+
+                <article class="info-card h-100">
+
+                    <div class="card-icon">
+                        <i class="bi bi-person"></i>
+                    </div>
+
+                    <h3>
+                        Хто я?
+                    </h3>
+
+                    <p>
+                        Я студент напряму програмної інженерії.
+                        Мені цікаво створювати програмні продукти,
+                        працювати з вебтехнологіями та постійно
+                        вдосконалювати свої професійні навички.
+                    </p>
+
+                    <p>
+                        Під час навчання я працюю з різними
+                        мовами програмування, фреймворками,
+                        базами даних та інструментами розробки.
+                    </p>
+
+                </article>
+
+            </div>
+
+
+            <div class="col-lg-4">
+
+                <aside class="info-card h-100">
+
+                    <div class="card-icon">
+                        <i class="bi bi-lightbulb"></i>
+                    </div>
+
+                    <h3>
+                        Мої цілі
+                    </h3>
+
+                    <ul class="custom-list">
+
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Розвиватися в IT
+                        </li>
+
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Створювати якісні проєкти
+                        </li>
+
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Отримувати практичний досвід
+                        </li>
+
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Постійно навчатися
+                        </li>
+
+                    </ul>
+
+                </aside>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     EDUCATION SECTION
+========================= -->
+<section class="content-section section-light" id="education">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span class="section-label">
+                Освіта
+            </span>
+
+            <h2>
+                Моя освіта
+            </h2>
+
+        </div>
+
+
+        <article class="education-card">
+
+            <div class="education-icon">
+                <i class="bi bi-mortarboard-fill"></i>
+            </div>
+
+            <div>
+
+                <span class="education-period">
+                    2024 — дотепер
+                </span>
+
+                <h3>
+                    Інженерія програмного забезпечення
+                </h3>
+
+                <p>
+                    Навчання за спеціальністю,
+                    пов'язаною з розробкою програмного
+                    забезпечення та інформаційними технологіями.
+                </p>
+
+                <div class="education-tags">
+
+                    <span>Programming</span>
+                    <span>Web Development</span>
+                    <span>Software Engineering</span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     SKILLS SECTION
+========================= -->
+<section class="content-section" id="skills">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span class="section-label">
+                Навички
+            </span>
+
+            <h2>
+                Технічні навички
+            </h2>
+
+            <p>
+                Технології та інструменти, з якими я працюю
+                під час навчання та розробки проєктів.
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            <!-- Python -->
+            <div class="col-md-6 col-lg-4">
+
+                <article class="skill-card">
+
+                    <div class="skill-icon python-icon">
+                        <i class="bi bi-filetype-py"></i>
+                    </div>
+
+                    <h3>
+                        Python
+                    </h3>
+
+                    <p>
+                        Основи програмування, Flask
+                        та створення вебзастосунків.
+                    </p>
+
+                    <div class="skill-progress">
+
+                        <div class="skill-progress-bar"
+                             style="width: 80%;">
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- HTML / CSS -->
+            <div class="col-md-6 col-lg-4">
+
+                <article class="skill-card">
+
+                    <div class="skill-icon web-icon">
+                        <i class="bi bi-filetype-html"></i>
+                    </div>
+
+                    <h3>
+                        HTML & CSS
+                    </h3>
+
+                    <p>
+                        Створення семантичної структури,
+                        адаптивна верстка та стилізація.
+                    </p>
+
+                    <div class="skill-progress">
+
+                        <div class="skill-progress-bar"
+                             style="width: 85%;">
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- Bootstrap -->
+            <div class="col-md-6 col-lg-4">
+
+                <article class="skill-card">
+
+                    <div class="skill-icon bootstrap-icon">
+                        <i class="bi bi-bootstrap"></i>
+                    </div>
+
+                    <h3>
+                        Bootstrap
+                    </h3>
+
+                    <p>
+                        Адаптивні сітки, компоненти,
+                        навігація та сучасний дизайн.
+                    </p>
+
+                    <div class="skill-progress">
+
+                        <div class="skill-progress-bar"
+                             style="width: 75%;">
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- Git -->
+            <div class="col-md-6 col-lg-4">
+
+                <article class="skill-card">
+
+                    <div class="skill-icon git-icon">
+                        <i class="bi bi-git"></i>
+                    </div>
+
+                    <h3>
+                        Git & GitHub
+                    </h3>
+
+                    <p>
+                        Контроль версій, робота з репозиторіями
+                        та командна розробка.
+                    </p>
+
+                    <div class="skill-progress">
+
+                        <div class="skill-progress-bar"
+                             style="width: 70%;">
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- Java -->
+            <div class="col-md-6 col-lg-4">
+
+                <article class="skill-card">
+
+                    <div class="skill-icon java-icon">
+                        <i class="bi bi-cup-hot"></i>
+                    </div>
+
+                    <h3>
+                        Java
+                    </h3>
+
+                    <p>
+                        Об'єктно-орієнтоване програмування
+                        та розробка навчальних проєктів.
+                    </p>
+
+                    <div class="skill-progress">
+
+                        <div class="skill-progress-bar"
+                             style="width: 70%;">
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- JavaScript -->
+            <div class="col-md-6 col-lg-4">
+
+                <article class="skill-card">
+
+                    <div class="skill-icon js-icon">
+                        <i class="bi bi-filetype-js"></i>
+                    </div>
+
+                    <h3>
+                        JavaScript
+                    </h3>
+
+                    <p>
+                        Основи клієнтської логіки
+                        та взаємодії з вебсторінками.
+                    </p>
+
+                    <div class="skill-progress">
+
+                        <div class="skill-progress-bar"
+                             style="width: 65%;">
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     EXPERIENCE SECTION
+========================= -->
+<section class="content-section section-light" id="experience">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span class="section-label">
+                Досвід
+            </span>
+
+            <h2>
+                Досвід роботи
+            </h2>
+
+        </div>
+
+
+        <article class="experience-card">
+
+            <div class="experience-number">
+                01
+            </div>
+
+            <div class="experience-content">
+
+                <span class="experience-type">
+                    Professional Experience
+                </span>
+
+                <h3>
+                    Робота з клієнтами та командна взаємодія
+                </h3>
+
+                <p>
+                    Досвід роботи допоміг мені розвинути
+                    комунікаційні навички, відповідальність,
+                    організованість та вміння працювати
+                    в команді.
+                </p>
+
+                <div class="experience-tags">
+
+                    <span>
+                        Комунікація
+                    </span>
+
+                    <span>
+                        Командна робота
+                    </span>
+
+                    <span>
+                        Відповідальність
+                    </span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CTA SECTION
+========================= -->
+<section class="cta-section">
+
+    <div class="container">
+
+        <div class="cta-card text-center">
+
+            <span class="section-label">
+                Let's connect
+            </span>
+
+            <h2>
+                Маєте запитання або пропозицію?
+            </h2>
+
+            <p>
+                Буду радий поспілкуватися та відповісти
+                на ваші запитання.
+            </p>
+
+            <a
+                href="{{ url_for('contacts') }}"
+                class="btn btn-light custom-btn">
+
+                Написати мені
+                <i class="bi bi-arrow-right ms-2"></i>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
