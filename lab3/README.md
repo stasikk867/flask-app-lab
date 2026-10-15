@@ -73,4 +73,6 @@ python -m unittest discover -s tests -v
 
 ### 6. Результати тестування
 
+![Детальна сторінка товару](00.png)
+
 
