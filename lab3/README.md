@@ -60,8 +60,6 @@ python -m unittest discover -s tests -v
 
 
 
-![Сторінка адміністратора](88.png)
-
 
 
 ![Список товарів](89.png)
