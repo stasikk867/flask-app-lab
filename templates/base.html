@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Лабораторна робота №4{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #f4f4f4;
+            color: #222;
+        }
+        nav {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        nav a { color: #1457a6; text-decoration: none; }
+        nav a:hover { text-decoration: underline; }
+        .message {
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        input, button {
+            padding: 8px;
+            margin: 5px 0;
+        }
+        button { cursor: pointer; }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 15px;
+        }
+        th, td { border: 1px solid #aaa; padding: 8px; text-align: left; }
+        body.dark { background: #222; color: #eee; }
+        body.dark a { color: #8ab4f8; }
+        body.dark th, body.dark td { border-color: #666; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('users.home') }}">Головна</a>
+        <a href="{{ url_for('users.login') }}">Вхід</a>
+        <a href="{{ url_for('users.profile') }}">Профіль</a>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="message {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}
+        <h1>Лабораторна робота №4</h1>
+        <p>Об'єкт запиту request. Сесії та кукі.</p>
+    {% endblock %}
+</body>
+</html>
