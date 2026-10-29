@@ -4,191 +4,101 @@
 {% block title %}Профіль користувача{% endblock %}
 
 {% block content %}
+<main class="{% if theme == 'dark' %}dark{% endif %}">
+    <h1>Профіль користувача</h1>
+    <p>Вітаємо, <strong>{{ username }}</strong>!</p>
 
-<div class="container rounded p-4
-    {% if theme == 'dark' %}
-        bg-dark text-white
+    <form method="POST" action="{{ url_for('users.logout') }}">
+        <button type="submit">Вийти</button>
+    </form>
+
+    <hr>
+
+    <h2>Налаштування теми</h2>
+
+    <form method="POST" action="{{ url_for('users.set_theme', theme='light') }}">
+        <button type="submit">Світла тема</button>
+    </form>
+
+    <form method="POST" action="{{ url_for('users.set_theme', theme='dark') }}">
+        <button type="submit">Темна тема</button>
+    </form>
+
+    <hr>
+
+    <h2>Додати cookie</h2>
+
+    <form method="POST" action="{{ url_for('users.add_cookie') }}">
+        <div>
+            <label for="key">Ключ:</label><br>
+            <input type="text" id="key" name="key" required>
+        </div>
+
+        <div>
+            <label for="value">Значення:</label><br>
+            <input type="text" id="value" name="value">
+        </div>
+
+        <div>
+            <label for="days">Термін дії (днів):</label><br>
+            <input type="number" id="days" name="days" min="0" value="7" required>
+        </div>
+
+        <button type="submit">Додати cookie</button>
+    </form>
+
+    <hr>
+
+    <h2>Видалити cookie</h2>
+
+    <form method="POST" action="{{ url_for('users.delete_cookie') }}">
+        <label for="delete-key">Ключ cookie:</label><br>
+        <input type="text" id="delete-key" name="key" required>
+        <button type="submit">Видалити</button>
+    </form>
+
+    <form method="POST" action="{{ url_for('users.delete_all_cookies') }}">
+        <button type="submit">Видалити всі користувацькі cookies</button>
+    </form>
+
+    <hr>
+
+    <h2>Збережені cookies</h2>
+
+    {% if cookies %}
+    <table>
+        <thead>
+            <tr>
+                <th>Ключ</th>
+                <th>Значення</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, value in cookies.items() %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>{{ value }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {% else %}
-        bg-white text-dark border
-    {% endif %}">
+    <p>Збережених cookies немає.</p>
+    {% endif %}
+</main>
 
-    <div class="p-4 mb-4 rounded text-white"
-         style="background-color: #0d6efd;">
-
-        <h2>Вітаємо, {{ username }}!</h2>
-        <p class="mb-0">Ви успішно увійшли в систему.</p>
-
-    </div>
-
-    <form method="POST" action="{{ url_for('logout') }}" class="mb-4">
-        <button type="submit" class="btn btn-danger">
-            Вийти
-        </button>
-    </form>
-
-    <hr>
-
-    <h4>Додати cookie</h4>
-
-    <form method="POST" action="{{ url_for('add_cookie') }}">
-
-        <div class="row g-3">
-
-            <div class="col-md-4">
-                <label for="cookie_key" class="form-label">Ключ</label>
-                <input
-                    type="text"
-                    id="cookie_key"
-                    name="key"
-                    class="form-control"
-                    required
-                >
-            </div>
-
-            <div class="col-md-4">
-                <label for="cookie_value" class="form-label">
-                    Значення
-                </label>
-                <input
-                    type="text"
-                    id="cookie_value"
-                    name="value"
-                    class="form-control"
-                    required
-                >
-            </div>
-
-            <div class="col-md-4">
-                <label for="cookie_days" class="form-label">
-                    Термін дії (днів)
-                </label>
-                <input
-                    type="number"
-                    id="cookie_days"
-                    name="days"
-                    class="form-control"
-                    min="1"
-                    value="7"
-                    required
-                >
-            </div>
-
-        </div>
-
-        <button type="submit" class="btn btn-success mt-3">
-            Додати cookie
-        </button>
-
-    </form>
-
-    <hr>
-
-    <h4>Видалити cookie за ключем</h4>
-
-    <form method="POST" action="{{ url_for('delete_cookie') }}">
-
-        <div class="mb-3">
-            <label for="delete_key" class="form-label">
-                Ключ cookie
-            </label>
-
-            <input
-                type="text"
-                id="delete_key"
-                name="key"
-                class="form-control"
-                required
-            >
-        </div>
-
-        <button type="submit" class="btn btn-warning">
-            Видалити cookie
-        </button>
-
-    </form>
-
-    <hr>
-
-    <h4>Видалити всі користувацькі cookies</h4>
-
-    <form
-        method="POST"
-        action="{{ url_for('delete_all_cookies') }}"
-        onsubmit="return confirm('Видалити всі користувацькі cookies?')">
-
-        <button type="submit" class="btn btn-danger">
-            Видалити всі cookies
-        </button>
-
-    </form>
-
-    <hr>
-
-    <h4>Збережені cookies</h4>
-
-    <div class="table-responsive">
-
-        <table class="table table-bordered
-            {% if theme == 'dark' %}
-                table-dark
-            {% else %}
-                table-striped
-            {% endif %}">
-
-            <thead>
-                <tr>
-                    <th>Ключ</th>
-                    <th>Значення</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for key, value in cookies.items() %}
-                <tr>
-                    <td>{{ key }}</td>
-                    <td>{{ value }}</td>
-                </tr>
-                {% else %}
-                <tr>
-                    <td colspan="2" class="text-center">
-                        Cookies відсутні
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-
-        </table>
-
-    </div>
-
-    <hr>
-
-    <h4>Колірна схема профілю</h4>
-
-    <div class="d-flex flex-wrap gap-2">
-
-        <form
-            method="POST"
-            action="{{ url_for('set_theme', theme='light') }}">
-
-            <button type="submit" class="btn btn-outline-secondary">
-                Світла тема
-            </button>
-
-        </form>
-
-        <form
-            method="POST"
-            action="{{ url_for('set_theme', theme='dark') }}">
-
-            <button type="submit" class="btn btn-dark">
-                Темна тема
-            </button>
-
-        </form>
-
-    </div>
-
-</div>
-
+<style>
+    main.dark {
+        background: #222;
+        color: #eee;
+        padding: 20px;
+        border-radius: 8px;
+    }
+    main.dark input,
+    main.dark button {
+        background: #333;
+        color: #fff;
+        border: 1px solid #777;
+    }
+</style>
 {% endblock %}
