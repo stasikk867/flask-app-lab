@@ -1,0 +1,54 @@
+
+{% extends "base.html" %}
+
+{% block title %}Вхід у систему{% endblock %}
+
+{% block content %}
+<div class="mx-auto mt-5" style="max-width: 500px;">
+
+    <h2 class="text-center mb-4">Вхід у систему</h2>
+
+    <form method="POST" action="{{ url_for('login') }}">
+
+        <div class="mb-3">
+            <label for="username" class="form-label">
+                Ім'я користувача
+            </label>
+
+            <input
+                type="text"
+                class="form-control"
+                id="username"
+                name="username"
+                autocomplete="username"
+                required
+            >
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Пароль</label>
+
+            <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                autocomplete="current-password"
+                required
+            >
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">
+            Увійти
+        </button>
+
+    </form>
+
+    <p class="text-muted text-center mt-3">
+        Тестовий логін: user1
+        <br>
+        Тестовий пароль: 12345
+    </p>
+
+</div>
+{% endblock %}
