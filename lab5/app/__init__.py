@@ -18,6 +18,6 @@ def create_app():
     from app.products import products_bp
 
     app.register_blueprint(main_bp)
-    app.register_blueprint(products_bp, url_prefix="/products")
+    app.register_blueprint(products_bp, url_prefix="/product")
 
     return app

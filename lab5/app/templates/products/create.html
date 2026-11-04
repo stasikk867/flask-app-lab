@@ -1,5 +1,4 @@
-
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 {% from "macros/forms.html" import render_field %}
 
 {% block title %}Додавання товару{% endblock %}
@@ -15,16 +14,16 @@
                     {{ form.hidden_tag() }}
 
                     {{ render_field(form.name) }}
+                    {{ render_field(form.content) }}
                     {{ render_field(form.price) }}
-                    {{ render_field(form.description) }}
+                    {{ render_field(form.category) }}
+                    {{ render_field(form.quantity) }}
                     {{ render_field(form.image) }}
 
                     {{ form.submit(class="btn btn-primary") }}
 
                     <a href="{{ url_for('products.product_list') }}"
-                       class="btn btn-secondary">
-                        Скасувати
-                    </a>
+                       class="btn btn-secondary">Скасувати</a>
                 </form>
             </div>
         </div>
