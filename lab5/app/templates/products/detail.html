@@ -1,0 +1,55 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="row g-0">
+
+        {% if product.image %}
+        <div class="col-md-5">
+            <img src="{{ url_for('static', filename='uploads/' ~ product.image) }}"
+                 class="img-fluid rounded-start w-100"
+                 alt="{{ product.name }}"
+                 style="height: 100%; min-height: 300px; object-fit: cover;">
+        </div>
+        {% endif %}
+
+        <div class="col">
+            <div class="card-body p-4">
+                <h2 class="card-title">{{ product.name }}</h2>
+
+                <h4 class="text-primary my-3">
+                    {{ "%.2f"|format(product.price) }} грн
+                </h4>
+
+                <p class="card-text">{{ product.description }}</p>
+
+                <div class="d-flex gap-2 flex-wrap mt-4">
+                    <a href="{{ url_for('products.product_edit', product_id=product.id) }}"
+                       class="btn btn-warning">
+                        Редагувати
+                    </a>
+
+                    <form method="POST"
+                          action="{{ url_for('products.product_delete', product_id=product.id) }}"
+                          onsubmit="return confirm('Видалити цей товар?');">
+                        <input type="hidden" name="csrf_token"
+                               value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-danger">
+                            Видалити
+                        </button>
+                    </form>
+
+                    <a href="{{ url_for('products.product_list') }}"
+                       class="btn btn-secondary">
+                        Назад
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

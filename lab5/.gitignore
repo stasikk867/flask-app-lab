@@ -1,0 +1,7 @@
+data/contact.log
+app/static/uploads/*
+!app/static/uploads/.gitkeep
+__pycache__/
+.pytest_cache/
+*.pyc
+data/products.json

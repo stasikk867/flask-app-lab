@@ -1,0 +1,29 @@
+
+{% extends "base.html" %}
+{% from "macros/forms.html" import render_field %}
+
+{% block title %}Контактна форма{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h2 class="text-center mb-4">Зворотний зв'язок</h2>
+
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+
+                    {{ render_field(form.name) }}
+                    {{ render_field(form.email) }}
+                    {{ render_field(form.phone) }}
+                    {{ render_field(form.subject) }}
+                    {{ render_field(form.message) }}
+
+                    {{ form.submit(class="btn btn-primary w-100") }}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
