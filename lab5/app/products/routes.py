@@ -1,6 +1,7 @@
-
-import os
+﻿import os
 import uuid
+from datetime import datetime
+from decimal import Decimal
 
 from flask import (
     render_template,
@@ -9,14 +10,13 @@ from flask import (
     flash,
     current_app,
     abort,
-    request,
 )
 from werkzeug.utils import secure_filename
 from tinydb import TinyDB
 from tinydb.queries import Query
 
 from . import products_bp
-from app.forms import ProductForm
+from app.products.forms import ProductForm
 
 
 def get_db():
@@ -29,12 +29,20 @@ def get_db():
     return TinyDB(os.path.join(data_dir, "products.json"))
 
 
+def get_products_table(db):
+    return db.table("products")
+
+
 def save_image(file):
     if not file or not file.filename:
         return None
 
-    filename = secure_filename(file.filename)
-    extension = filename.rsplit(".", 1)[-1].lower()
+    original_name = secure_filename(file.filename)
+
+    if "." not in original_name:
+        raise ValueError("Файл повинен мати розширення PNG, JPG або JPEG.")
+
+    extension = original_name.rsplit(".", 1)[1].lower()
 
     if extension not in current_app.config["ALLOWED_EXTENSIONS"]:
         raise ValueError("Дозволені формати: PNG, JPG, JPEG.")
@@ -49,11 +57,34 @@ def save_image(file):
     return unique_filename
 
 
+def remove_image(filename):
+    if not filename:
+        return
+
+    image_path = os.path.join(
+        current_app.config["UPLOAD_FOLDER"],
+        filename
+    )
+
+    if os.path.isfile(image_path):
+        os.remove(image_path)
+
+
+def get_next_id(products):
+    return max(
+        (product.get("id", 0) for product in products),
+        default=0
+    ) + 1
+
+
 @products_bp.route("/")
 def product_list():
     db = get_db()
-    products = db.all()
-    db.close()
+
+    try:
+        products = get_products_table(db).all()
+    finally:
+        db.close()
 
     return render_template(
         "products/list.html",
@@ -61,22 +92,7 @@ def product_list():
     )
 
 
-@products_bp.route("/<int:product_id>")
-def product_detail(product_id):
-    db = get_db()
-    product = db.get(Query().id == product_id)
-    db.close()
-
-    if product is None:
-        abort(404)
-
-    return render_template(
-        "products/detail.html",
-        product=product
-    )
-
-
-@products_bp.route("/create", methods=["GET", "POST"])
+@products_bp.route("/add", methods=["GET", "POST"])
 def product_create():
     form = ProductForm()
 
@@ -85,28 +101,28 @@ def product_create():
             image_filename = save_image(form.image.data)
         except ValueError as error:
             flash(str(error), "error")
-            return render_template(
-                "products/create.html",
-                form=form
-            )
+            return render_template("products/create.html", form=form)
 
         db = get_db()
-        products = db.all()
 
-        product_id = max(
-            (product["id"] for product in products),
-            default=0
-        ) + 1
+        try:
+            table = get_products_table(db)
+            products = table.all()
 
-        db.insert({
-            "id": product_id,
-            "name": form.name.data,
-            "price": float(form.price.data),
-            "description": form.description.data,
-            "image": image_filename
-        })
+            product = {
+                "id": get_next_id(products),
+                "name": form.name.data,
+                "content": form.content.data,
+                "price": float(Decimal(form.price.data)),
+                "category": form.category.data,
+                "quantity": form.quantity.data,
+                "image": image_filename,
+                "created_at": datetime.now().isoformat(timespec="seconds")
+            }
 
-        db.close()
+            table.insert(product)
+        finally:
+            db.close()
 
         flash("Товар успішно додано!", "success")
         return redirect(url_for("products.product_list"))
@@ -117,86 +133,109 @@ def product_create():
     )
 
 
+@products_bp.route("/<int:product_id>")
+def product_detail(product_id):
+    db = get_db()
+
+    try:
+        product = get_products_table(db).get(
+            Query().id == product_id
+        )
+    finally:
+        db.close()
+
+    if product is None:
+        abort(404)
+
+    return render_template(
+        "products/detail.html",
+        product=product
+    )
+
+
 @products_bp.route("/<int:product_id>/edit", methods=["GET", "POST"])
 def product_edit(product_id):
     db = get_db()
-    product = db.get(Query().id == product_id)
 
-    if product is None:
-        db.close()
-        abort(404)
+    try:
+        table = get_products_table(db)
+        product = table.get(Query().id == product_id)
 
-    form = ProductForm()
+        if product is None:
+            abort(404)
 
-    if request.method == "GET":
-        form.name.data = product["name"]
-        form.price.data = str(product["price"])
-        form.description.data = product["description"]
+        form = ProductForm()
 
-    if form.validate_on_submit():
-        try:
-            image_filename = save_image(form.image.data)
-        except ValueError as error:
-            flash(str(error), "error")
-            db.close()
-            return render_template(
-                "products/edit.html",
-                form=form,
-                product=product
+        if form.validate_on_submit():
+            try:
+                image_filename = save_image(form.image.data)
+            except ValueError as error:
+                flash(str(error), "error")
+                return render_template(
+                    "products/edit.html",
+                    form=form,
+                    product=product
+                )
+
+            updated_product = {
+                "id": product["id"],
+                "name": form.name.data,
+                "content": form.content.data,
+                "price": float(Decimal(form.price.data)),
+                "category": form.category.data,
+                "quantity": form.quantity.data,
+                "image": image_filename or product.get("image"),
+                "created_at": product["created_at"]
+            }
+
+            table.update(
+                updated_product,
+                Query().id == product_id
             )
 
-        updated_product = {
-            "id": product_id,
-            "name": form.name.data,
-            "price": float(form.price.data),
-            "description": form.description.data,
-            "image": image_filename or product.get("image")
-        }
+            if image_filename and product.get("image"):
+                remove_image(product["image"])
 
-        db.update(
-            updated_product,
-            Query().id == product_id
+            flash("Товар успішно оновлено!", "success")
+            return redirect(
+                url_for(
+                    "products.product_detail",
+                    product_id=product_id
+                )
+            )
+
+        if form.name.data is None:
+            form.name.data = product["name"]
+            form.content.data = product["content"]
+            form.price.data = str(product["price"])
+            form.category.data = product["category"]
+            form.quantity.data = product["quantity"]
+
+        return render_template(
+            "products/edit.html",
+            form=form,
+            product=product
         )
-
+    finally:
         db.close()
-
-        flash("Товар успішно оновлено!", "success")
-        return redirect(
-            url_for("products.product_detail", product_id=product_id)
-        )
-
-    db.close()
-
-    return render_template(
-        "products/edit.html",
-        form=form,
-        product=product
-    )
 
 
 @products_bp.route("/<int:product_id>/delete", methods=["POST"])
 def product_delete(product_id):
     db = get_db()
-    product = db.get(Query().id == product_id)
 
-    if product is None:
+    try:
+        table = get_products_table(db)
+        product = table.get(Query().id == product_id)
+
+        if product is None:
+            abort(404)
+
+        table.remove(Query().id == product_id)
+
+        remove_image(product.get("image"))
+    finally:
         db.close()
-        abort(404)
-
-    if product.get("image"):
-        image_path = os.path.join(
-            current_app.config["UPLOAD_FOLDER"],
-            product["image"]
-        )
-
-        if os.path.exists(image_path):
-            os.remove(image_path)
-
-    db.remove(Query().id == product_id)
-    db.close()
 
     flash("Товар успішно видалено!", "success")
     return redirect(url_for("products.product_list"))
-
-
-

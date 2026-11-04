@@ -1,18 +1,6 @@
-
-from flask_wtf import FlaskForm
-from wtforms import (
-    StringField,
-    SelectField,
-    TextAreaField,
-    SubmitField,
-    FileField,
-)
-from wtforms.validators import (
-    DataRequired,
-    Length,
-    Email,
-    Regexp,
-)
+﻿from flask_wtf import FlaskForm
+from wtforms import StringField, SelectField, TextAreaField, SubmitField
+from wtforms.validators import DataRequired, Length, Email, Regexp
 
 
 class ContactForm(FlaskForm):
@@ -20,11 +8,7 @@ class ContactForm(FlaskForm):
         "Ім'я",
         validators=[
             DataRequired(message="Введіть ім'я."),
-            Length(
-                min=4,
-                max=10,
-                message="Ім'я має містити від 4 до 10 символів."
-            )
+            Length(min=4, max=10, message="Ім'я має містити від 4 до 10 символів.")
         ]
     )
 
@@ -40,10 +24,7 @@ class ContactForm(FlaskForm):
         "Телефон",
         validators=[
             DataRequired(message="Введіть номер телефону."),
-            Regexp(
-                r"^\+380\d{9}$",
-                message="Формат телефону: +380XXXXXXXXX."
-            )
+            Regexp(r"^\+380\d{9}$", message="Формат телефону: +380XXXXXXXXX.")
         ]
     )
 
@@ -64,43 +45,8 @@ class ContactForm(FlaskForm):
         "Повідомлення",
         validators=[
             DataRequired(message="Введіть повідомлення."),
-            Length(
-                max=500,
-                message="Повідомлення не повинно перевищувати 500 символів."
-            )
+            Length(max=500, message="Повідомлення не повинно перевищувати 500 символів.")
         ]
     )
 
     submit = SubmitField("Надіслати")
-
-
-class ProductForm(FlaskForm):
-    name = StringField(
-        "Назва товару",
-        validators=[
-            DataRequired(message="Введіть назву товару."),
-            Length(max=100)
-        ]
-    )
-
-    price = StringField(
-        "Ціна",
-        validators=[
-            DataRequired(message="Введіть ціну."),
-            Regexp(
-                r"^\d+(\.\d{1,2})?$",
-                message="Введіть коректну ціну."
-            )
-        ]
-    )
-
-    description = TextAreaField(
-        "Опис",
-        validators=[
-            DataRequired(message="Введіть опис товару.")
-        ]
-    )
-
-    image = FileField("Зображення товару")
-
-    submit = SubmitField("Зберегти")
