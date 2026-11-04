@@ -47,6 +47,15 @@ def save_image(file):
     if extension not in current_app.config["ALLOWED_EXTENSIONS"]:
         raise ValueError("Дозволені формати: PNG, JPG, JPEG.")
 
+    max_size = 5 * 1024 * 1024
+
+    file.stream.seek(0, os.SEEK_END)
+    file_size = file.stream.tell()
+    file.stream.seek(0)
+
+    if file_size > max_size:
+        raise ValueError("Розмір зображення не повинен перевищувати 5 МБ.")
+
     unique_filename = f"{uuid.uuid4().hex}.{extension}"
 
     upload_folder = current_app.config["UPLOAD_FOLDER"]
