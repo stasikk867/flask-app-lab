@@ -1,0 +1,104 @@
+
+{% extends "base.html" %}
+
+{% block title %}Профіль користувача{% endblock %}
+
+{% block content %}
+<main class="{% if theme == 'dark' %}dark{% endif %}">
+    <h1>Профіль користувача</h1>
+    <p>Вітаємо, <strong>{{ username }}</strong>!</p>
+
+    <form method="POST" action="{{ url_for('users.logout') }}">
+        <button type="submit">Вийти</button>
+    </form>
+
+    <hr>
+
+    <h2>Налаштування теми</h2>
+
+    <form method="POST" action="{{ url_for('users.set_theme', theme='light') }}">
+        <button type="submit">Світла тема</button>
+    </form>
+
+    <form method="POST" action="{{ url_for('users.set_theme', theme='dark') }}">
+        <button type="submit">Темна тема</button>
+    </form>
+
+    <hr>
+
+    <h2>Додати cookie</h2>
+
+    <form method="POST" action="{{ url_for('users.add_cookie') }}">
+        <div>
+            <label for="key">Ключ:</label><br>
+            <input type="text" id="key" name="key" required>
+        </div>
+
+        <div>
+            <label for="value">Значення:</label><br>
+            <input type="text" id="value" name="value">
+        </div>
+
+        <div>
+            <label for="days">Термін дії (днів):</label><br>
+            <input type="number" id="days" name="days" min="0" value="7" required>
+        </div>
+
+        <button type="submit">Додати cookie</button>
+    </form>
+
+    <hr>
+
+    <h2>Видалити cookie</h2>
+
+    <form method="POST" action="{{ url_for('users.delete_cookie') }}">
+        <label for="delete-key">Ключ cookie:</label><br>
+        <input type="text" id="delete-key" name="key" required>
+        <button type="submit">Видалити</button>
+    </form>
+
+    <form method="POST" action="{{ url_for('users.delete_all_cookies') }}">
+        <button type="submit">Видалити всі користувацькі cookies</button>
+    </form>
+
+    <hr>
+
+    <h2>Збережені cookies</h2>
+
+    {% if cookies %}
+    <table>
+        <thead>
+            <tr>
+                <th>Ключ</th>
+                <th>Значення</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, value in cookies.items() %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>{{ value }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Збережених cookies немає.</p>
+    {% endif %}
+</main>
+
+<style>
+    main.dark {
+        background: #222;
+        color: #eee;
+        padding: 20px;
+        border-radius: 8px;
+    }
+    main.dark input,
+    main.dark button {
+        background: #333;
+        color: #fff;
+        border: 1px solid #777;
+    }
+</style>
+{% endblock %}

@@ -1,5 +1,4 @@
-
-from datetime import datetime, timedelta
+﻿from datetime import datetime, timedelta
 
 from flask import (
     render_template,
@@ -14,7 +13,6 @@ from flask import (
 from . import users_bp
 
 
-# Тестові дані для входу
 USERNAME = "user1"
 PASSWORD = "12345"
 
@@ -38,7 +36,7 @@ def login():
         flash("Неправильний логін або пароль.", "error")
         return redirect(url_for("users.login"))
 
-    return render_template("login.html")
+    return render_template("users/login.html")
 
 
 @users_bp.route("/profile")
@@ -51,7 +49,7 @@ def profile():
     cookies = request.cookies
 
     return render_template(
-        "profile.html",
+        "users/profile.html",
         username=session["username"],
         theme=theme,
         cookies=cookies,
