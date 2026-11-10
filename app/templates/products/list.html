@@ -1,0 +1,51 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Список товарів{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Список товарів</h2>
+    <a href="{{ url_for('products.product_create') }}" class="btn btn-primary">
+        Додати товар
+    </a>
+</div>
+
+{% if products %}
+<div class="row g-4">
+    {% for product in products %}
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+
+            {% if product.image %}
+                <img src="{{ url_for('static', filename='uploads/' ~ product.image) }}"
+                     class="card-img-top"
+                     alt="{{ product.name }}"
+                     style="height: 200px; object-fit: cover;">
+            {% else %}
+                <div class="bg-light text-center py-5">Зображення відсутнє</div>
+            {% endif %}
+
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p>Категорія: {{ product.category }}</p>
+                <p>Кількість: {{ product.quantity }}</p>
+                <p class="fw-bold">{{ "%.2f"|format(product.price) }} грн</p>
+                <p class="text-muted">
+                    Створено: {{ product.created_at }}
+                </p>
+
+                <a href="{{ url_for('products.product_detail', product_id=product.id) }}"
+                   class="btn btn-outline-primary">
+                    Детальніше
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info">
+    Товарів поки немає. Додайте перший товар.
+</div>
+{% endif %}
+{% endblock %}

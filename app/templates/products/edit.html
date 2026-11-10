@@ -1,0 +1,41 @@
+﻿{% extends "base.html" %}
+{% from "macros/forms.html" import render_field %}
+
+{% block title %}Редагування товару{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h2 class="mb-4">Редагувати товар</h2>
+
+                <form method="POST" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+
+                    {{ render_field(form.name) }}
+                    {{ render_field(form.content) }}
+                    {{ render_field(form.price) }}
+                    {{ render_field(form.category) }}
+                    {{ render_field(form.quantity) }}
+                    {{ render_field(form.image) }}
+
+                    {% if product.image %}
+                        <p class="text-muted">
+                            Поточне зображення:
+                            <img src="{{ url_for('static', filename='uploads/' ~ product.image) }}"
+                                 alt="{{ product.name }}"
+                                 style="max-width: 120px;">
+                        </p>
+                    {% endif %}
+
+                    {{ form.submit(class="btn btn-primary") }}
+
+                    <a href="{{ url_for('products.product_detail', product_id=product.id) }}"
+                       class="btn btn-secondary">Скасувати</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
