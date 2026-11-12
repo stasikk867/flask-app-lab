@@ -5,3 +5,16 @@ __pycache__/
 .pytest_cache/
 *.pyc
 data/products.json
+# Environment
+.env
+.venv/
+
+# Flask instance and database
+instance/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Pytest
+.pytest_cache/

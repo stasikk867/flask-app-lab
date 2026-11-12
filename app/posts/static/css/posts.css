@@ -1,0 +1,67 @@
+﻿/* General post styles */
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+/* Page headings */
+h1, h2 {
+    font-weight: 600;
+}
+
+/* Post cards */
+.card {
+    border: none;
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.card-title {
+    font-weight: 600;
+    color: #212529;
+}
+
+/* Post content */
+.post-content {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    white-space: pre-wrap;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 6px;
+}
+
+/* Forms */
+.form-control,
+.form-select {
+    border-radius: 6px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+/* Navigation */
+.navbar-brand {
+    font-weight: 700;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+}
