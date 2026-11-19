@@ -30,6 +30,7 @@ def create_app(config_name=None):
     from app.products import products_bp
     from app.posts import posts_bp
     from app.posts.models import Post
+    from app.products.models import Category, Product
 
     app.register_blueprint(main_bp)
     app.register_blueprint(products_bp, url_prefix="/product")
